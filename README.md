@@ -31,7 +31,9 @@ let evtHandler = (e, txns) => {
    //contained in a 'logEvents' map where each event name maps to an array of event metadata.
 }
 
-//this will retrieve all events in the given block range, regardless of how many events are available. It uses eth-sync utility to incrementally retrieve block ranges until all events retrieved (i.e. it works around Infura limits if using Infura as an RPC provider).
+//this will retrieve all events in the given block range, regardless of how many events are available. 
+//It uses eth-sync utility to incrementally retrieve block ranges until all events retrieved 
+//(i.e. it works around Infura limits if using Infura as an RPC provider).
 await hist.recoverEvents({
     fromBlock: <start block>,
     toBlock: <end block>
