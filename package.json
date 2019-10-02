@@ -1,6 +1,6 @@
 {
   "name": "eth-history",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Utility for retrieving historical block/event data for contract address",
   "main": "dist/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   "homepage": "https://github.com/buidlhub/eth-history#readme",
   "dependencies": {
     "debug": "^4.1.1",
-    "eth-sync": "^0.1.7",
+    "eth-sync": "^0.1.8",
     "yup": "^0.27.0"
   },
   "devDependencies": {
