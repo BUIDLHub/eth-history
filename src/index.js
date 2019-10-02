@@ -92,7 +92,7 @@ export default class ETHHistory {
         log.info("Finished recovering all blocks");
     }
 
-    recoverEvents(props, cb) {
+    recoverEvents(props, cb, badCallback) {
         
         recoverEventsSchema.validateSync(props);
         return new Promise(async (done)=>{
@@ -125,11 +125,18 @@ export default class ETHHistory {
                         await cb(null, txns);
                     }
                 }
+
+                let badHandler = null;
+                if(typeof badCallback === 'function') {
+                    badHandler = (badTxns) => {
+                        return badHandler(badTxns);
+                    }
+                }
         
                 let paging = async cursor => {
                     if(cursor) {
                         log.debug("Going to next batch of events");
-                        cursor.nextBatch(txnHandler).then(paging);
+                        cursor.nextBatch(txnHandler, badHandler).then(paging);
                     } else {
                         //all done
                         log.info("Finished receiving", count, "event transactions");
@@ -140,7 +147,7 @@ export default class ETHHistory {
                 sync.start({
                     fromBlock,
                     toBlock
-                }, txnHandler).then(paging);
+                }, txnHandler, badHandler).then(paging);
 
             } catch (e) {
                 log.error("Problem in event sync", e);
