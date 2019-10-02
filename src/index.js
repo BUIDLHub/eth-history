@@ -129,7 +129,7 @@ export default class ETHHistory {
                 let badHandler = null;
                 if(typeof badCallback === 'function') {
                     badHandler = (badTxns) => {
-                        return badHandler(badTxns);
+                        return badCallback(badTxns);
                     }
                 }
         
