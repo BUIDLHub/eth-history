@@ -57,6 +57,14 @@ export default class ETHHistory {
         if(typeof concurrency === 'undefined') {
             concurrency = 5;
         }
+        let span = toBlock = fromBlock;
+        if(span < 0) {
+            throw new Error("Invalid block span. fromBlock must be before toBlock");
+        }
+        if(span < concurrency) {
+            concurrency = 1;
+        }
+
         log.info("Recovering blocks", fromBlock,"-",toBlock,"with",maxRetries,"failure retries in batches of",concurrency);
         let batch = [];
         for(let i=fromBlock;i<=toBlock; i+= concurrency) {
@@ -165,7 +173,7 @@ export default class ETHHistory {
             maxRetries,
             concurrency
         }  = props;
-
+        let keepGoing = true;
         for(let i=0;i<blocks.length;++i) {
             let b = blocks[i];
             if(includeReceipts) {
@@ -200,7 +208,13 @@ export default class ETHHistory {
                 log.debug("Retrieved",b.transactions.length,"txns for block",b.number,"in", (Date.now()-s),"ms");
             }
             //all txns enriched, send to client
-            await cb(null, b);
+            let r = await cb(null, b);
+            if(typeof r !== 'undefined') {
+                keepGoing = r;
+            }
+            if(!keepGoing) {
+                return keepGoing;
+            }
         }
     }
 }
