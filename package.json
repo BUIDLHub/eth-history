@@ -1,6 +1,6 @@
 {
   "name": "eth-history",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Utility for retrieving historical block/event data for contract address",
   "main": "dist/index.js",
   "scripts": {

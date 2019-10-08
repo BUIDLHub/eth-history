@@ -57,7 +57,7 @@ export default class ETHHistory {
         if(typeof concurrency === 'undefined') {
             concurrency = 5;
         }
-        let span = toBlock = fromBlock;
+        let span = toBlock - fromBlock;
         if(span < 0) {
             throw new Error("Invalid block span. fromBlock must be before toBlock");
         }
